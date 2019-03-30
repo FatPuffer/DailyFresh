@@ -1,0 +1,39 @@
+1.什么时候需要添加历史浏览记录
+      访问商品的详情页面的时候，（在商品详情页对应的视图中），需要添加历史浏览记录。
+
+2.什么时候需要获取历史浏览记录
+      用户访问个人中心的时候，获取用户历史浏览记录
+
+3.历史浏览记录需要储存在哪里
+      redis数据库>内存型数据库，读写效率高
+      使用redis数据库存储历史浏览记录
+
+4.redis中存储历史浏览记录的格式
+      每个用户的历史记录用一条数据存储
+      
+      list
+          history_用户id: [3, 2, 1]
+      添加历史浏览记录时，用户最新浏览的商品的id从最左侧插入
+      插入前需要先判断列表中是否已经存在该商品id，如果存在，先将其删除，在从最左侧插入。
+      
+      lrem命令移除列表中的元素时，当元素存在则移除，不存在则什么都不做。
+      lrem key count value : 移除列表中的元素
+      count > 0：从表头开始向表尾搜索（从左往右），移除与value相等的元素，数量为count
+      count < 0：从表尾开始向表头搜索（从右往左），移除与value相等的元素，数量为count的绝对值
+      count = 0：移除表中所有与value相等的值
+      
+            # 添加用户历史浏览记录
+            conn = get_redis_connection('default')
+            history_key = 'history_%d' % user.id
+            # 移除列表中的goods_id
+            conn.lrem(history_key, 0, goods_id)
+            # 把goods_id插入到列表的左侧
+            conn.lpush(history_key, goods_id)
+            # 只保存最近浏览的5条信息
+            conn.ltrim(history_key, 0, 4)
+      
+      ltrim：对一个列表进行修剪
+      ltrim key start stop：让列表只保存指定区域之间的元素，不在指定区间的元素都将被删掉。
+      
+      lrange key start stop：根据起始范围获取一个列表中的元素
+      
