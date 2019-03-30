@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dailyfresh',
         'USER': 'root',
-        'PASSWORD': '120728lyy',
+        'PASSWORD': 'xxxxxxxxxx',
         'PORT': 3306,
         'HOST': '192.168.153.146',
     }
@@ -148,11 +148,11 @@ EMAIL_HOST = 'smtp.163.com'
 # 端口
 EMAIL_PORT = 25
 # 发送邮件的邮箱
-EMAIL_HOST_USER = '18829711180@163.com'
+EMAIL_HOST_USER = 'xxxxxxxxxxx@163.com'
 # 在邮箱中设置的客户端授权密码
-EMAIL_HOST_PASSWORD = 'dc120728'
+EMAIL_HOST_PASSWORD = 'xxxxxxxxxxx'
 # 收件人看到的发件人
-EMAIL_FROM = '天天生鲜<18829711180@163.com>'
+EMAIL_FROM = '天天生鲜<xxxxxxxxxxx@163.com>'
 
 
 # 登录验证模块用来跳转的路由地址,根据自己登录路由地址填写
